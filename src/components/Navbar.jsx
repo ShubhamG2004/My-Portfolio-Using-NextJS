@@ -18,9 +18,9 @@ export default function Navbar() {
     { id: 'about', label: 'About' },
     { id: 'projects', label: 'Projects' },
     { id: 'experience', label: 'Experience' },
-    { id: 'education', label: 'Education' },
+    { id: 'education', label: 'Academics' },
     { id: 'skills', label: 'Skills' },
-    { id: 'award', label: 'Awards' },
+    { id: 'award', label: 'Achievements' },
     { id: 'contact', label: 'Contact' }
   ];
 

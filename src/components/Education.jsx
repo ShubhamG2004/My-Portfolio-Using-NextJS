@@ -48,8 +48,8 @@ export default function Education() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-             Educ<span className="text-yellow-600 relative">
-                        <span className="relative z-10">ation</span>
+             Acad<span className="text-yellow-600 relative">
+                        <span className="relative z-10">emics</span>
                         <span className="absolute bottom-0 left-0 w-full h-3  opacity-70 -z-0 transform -rotate-1"></span>
                 </span>
           </h2>
