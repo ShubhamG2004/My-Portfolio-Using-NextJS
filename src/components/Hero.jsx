@@ -23,7 +23,7 @@ export default function Hero() {
             Hi, I'm <span className="text-white">Shubham Gavade</span>
           </h1>
           <p className="text-lg sm:text-xl lg:text-2xl text-gray-300">
-            Web Developer | MERN Stack | AI Enthusiast
+            Full Stack Developer | MERN Stack | AI Enthusiast
           </p>
 
           {/* Email and Social Links */}
