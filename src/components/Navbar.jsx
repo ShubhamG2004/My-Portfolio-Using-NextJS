@@ -20,7 +20,7 @@ export default function Navbar() {
     { id: 'experience', label: 'Experience' },
     { id: 'education', label: 'Academics' },
     { id: 'skills', label: 'Skills' },
-    { id: 'award', label: 'Achievements' },
+    { id: 'achievements', label: 'Achievements' },
     { id: 'contact', label: 'Contact' }
   ];
 

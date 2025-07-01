@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-export default function AwardsAchievements() {
+export default function Awards() {
   const awards = [
     {
       title: "Winner",
