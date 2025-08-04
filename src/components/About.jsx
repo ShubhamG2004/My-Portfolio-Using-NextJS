@@ -99,15 +99,6 @@ export default function About() {
           >
             Discover my journey, skills, and passion for technology
           </motion.p>
-          {/* Download Resume Button */}
-          <motion.a
-            href="/resume.pdf"
-            download
-            whileHover={{ scale: 1.05, backgroundColor: "#fde68a" }}
-            className="inline-block mt-8 px-6 py-3 bg-yellow-400 text-gray-900 font-semibold rounded-full shadow-md hover:bg-yellow-300 transition-colors duration-300"
-          >
-            Download Resume
-          </motion.a>
         </motion.div>
 
         <motion.div 
