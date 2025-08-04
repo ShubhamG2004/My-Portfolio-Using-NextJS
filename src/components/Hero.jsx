@@ -4,7 +4,8 @@ import {
   Github,
   Code2,
   GraduationCap,
-  ChefHat
+  ChefHat,
+  Download
 } from "lucide-react";
 
 export default function Hero() {
@@ -97,6 +98,14 @@ export default function Hero() {
             >
               <Code2 className="h-5 w-5 mr-2" />
               View Projects
+            </a>
+            <a
+              href="/Resume_Shubham_Gavade.pdf"
+              download
+              className="px-6 py-3 bg-gray-800 hover:bg-gray-700 text-yellow-500 border border-yellow-500 font-medium rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center"
+            >
+              <Download className="h-5 w-5 mr-2" />
+              Download Resume
             </a>
           </div>
         </div>
