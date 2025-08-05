@@ -3,16 +3,6 @@ import { motion } from 'framer-motion';
 
 const experiences = [
   {
-    role: "Web Developer | Trainee [On-site]",
-    company: "Resilient Lab Pvt. Ltd.",
-    date: "July 2022 – Aug 2022",
-    link: "https://drive.google.com/file/d/1TI1lLyNAPNm8TYk9QRO34TuzCT5KNrYb/view",
-    points: [
-      "Improved web portal load speed by 18% and mobile responsiveness by 25%.",
-      "Built RESTful APIs to enhance system integration and improve communication speed by 30%."
-    ]
-  },
-  {
     role: "Elliot Systems · Internship",
     company: "Hybrid",
     date: "Jan 2025 – Feb 2025 · 2 months",
@@ -22,6 +12,16 @@ const experiences = [
       "Utilized Next.js, Tailwind CSS, and MongoDB to design and implement responsive, full-stack web features.",
       "Contributed to the integration of AI agents for smart recommendations and task automation within the system.",
       "Worked on FastAPI-based backend services, optimizing API endpoints for performance and scalability."
+    ]
+  },
+  {
+    role: "Web Developer | Trainee [On-site]",
+    company: "Resilient Lab Pvt. Ltd.",
+    date: "July 2022 – Aug 2022",
+    link: "https://drive.google.com/file/d/1TI1lLyNAPNm8TYk9QRO34TuzCT5KNrYb/view",
+    points: [
+      "Improved web portal load speed by 18% and mobile responsiveness by 25%.",
+      "Built RESTful APIs to enhance system integration and improve communication speed by 30%."
     ]
   },
   {
