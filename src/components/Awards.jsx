@@ -47,9 +47,9 @@ export default function Awards() {
   ];
 
   const openSource = [
-    { text: "Contributed to 3+ open source projects via CertifyO platform", year: "2023" },
-    { text: "Improved bug tracking and documentation", year: "2022" },
-    { text: "Developed UI components and fixed API issues", year: "2022" }
+    { text: "Contributed to 3+ open source projects via CertifyO platform", icon: "🌐", year: "2023" },
+    { text: "Improved bug tracking and documentation", icon: "📝", year: "2022" },
+    { text: "Developed UI components and fixed API issues", icon: "💻", year: "2022" }
   ];
 
   const containerVariants = {
@@ -299,7 +299,7 @@ export default function Awards() {
                       repeat: Infinity,
                       repeatDelay: 3
                     }}
-                  ></motion.span>
+                  >🌟</motion.span>
                   <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
                     Extra-Curricular Activities
                   </span>
