@@ -299,7 +299,7 @@ export default function Awards() {
                       repeat: Infinity,
                       repeatDelay: 3
                     }}
-                  >🌟</motion.span>
+                  ></motion.span>
                   <span className="bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
                     Extra-Curricular Activities
                   </span>
