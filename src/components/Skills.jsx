@@ -19,31 +19,31 @@ export default function Skills() {
   const skillCategories = [
     {
       title: 'Programming Languages',
-      icon: '💻',
+      // icon: '💻',
       skills: ['JavaScript', 'Dart', 'Java', 'Python', 'C++', 'PHP'],
       color: 'from-purple-500 to-indigo-600'
     },
     {
       title: 'Web Development',
-      icon: '🌐',
+      // icon: '🌐',
       skills: ['MERN Stack', 'Next.js', 'React.js', 'Node.js', 'Express.js', 'Tailwind CSS', 'Bootstrap'],
       color: 'from-blue-500 to-cyan-600'
     },
     {
       title: 'Databases & Backend',
-      icon: '🗃️',
+      // icon: '🗃️',
       skills: ['MongoDB', 'MySQL', 'PostgreSQL', 'Firebase', 'SOAP APIs', 'RESTful APIs'],
       color: 'from-green-500 to-emerald-600'
     },
     {
       title: 'Tools & Platforms',
-      icon: '🛠️',
+      // icon: '🛠️',
       skills: ['Git', 'GitHub', 'VS Code', 'Postman', 'Figma', 'Docker'],
       color: 'from-yellow-500 to-amber-600'
     },
     {
       title: 'Core CS Skills',
-      icon: '🧠',
+      // icon: '🧠',
       skills: ['Data Structures', 'Algorithms', 'OOP', 'System Design', 'Problem Solving'],
       color: 'from-red-500 to-pink-600'
     }
