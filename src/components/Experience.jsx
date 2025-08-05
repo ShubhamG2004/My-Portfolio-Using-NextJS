@@ -6,7 +6,7 @@ const experiences = [
     role: "Elliot Systems · Internship",
     company: "Hybrid",
     date: "Jan 2025 – Feb 2025 · 2 months",
-    link: "#",
+    link: "https://drive.google.com/file/d/1hushO5wSZm5KbpmdJv6qx0TccyCAX9z2/view",
     points: [
       "Collaborated on the development of a Financial Management System as part of a cross-functional team.",
       "Utilized Next.js, Tailwind CSS, and MongoDB to design and implement responsive, full-stack web features.",
