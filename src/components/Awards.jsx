@@ -96,7 +96,7 @@ export default function Awards() {
             variants={itemVariants}
             whileHover={{ scale: 1.02 }}
           >
-            Awards & <span className="text-yellow-600 relative">
+            Awards &<span className="text-yellow-600 relative">
               <motion.span 
                 className="relative z-10"
                 whileHover={{ scale: 1.1 }}
