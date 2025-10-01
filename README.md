@@ -1,4 +1,4 @@
-# 🚀 Shubham Gavade - Portfolio Website
+# Shubham Gavade - Portfolio Website
 
 <div align="center">
 
