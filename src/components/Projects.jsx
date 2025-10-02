@@ -103,7 +103,7 @@ const ProjectCard = ({ project, index }) => {
     >
       {/* Advanced Glowing backdrop */}
       <motion.div
-        className="absolute -inset-1 bg-gradient-to-r from-blue-400/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-xl"
+        className="absolute -inset-1 bg-gradient-to-r from-yellow-400/20 via-orange-500/20 to-pink-500/20 rounded-3xl blur-xl"
         animate={{
           opacity: isHovered ? 0.6 : 0,
           scale: isHovered ? 1.1 : 1,
@@ -116,7 +116,7 @@ const ProjectCard = ({ project, index }) => {
       <motion.div
         className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)`
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(251, 191, 36, 0.15) 0%, transparent 50%)`
         }}
       />
 
@@ -145,7 +145,7 @@ const ProjectCard = ({ project, index }) => {
             className="absolute top-4 left-4 z-20"
           >
             <motion.span 
-              className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs font-bold rounded-full shadow-lg border border-white/20"
+              className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-yellow-500 to-orange-600 text-white text-xs font-bold rounded-full shadow-lg border border-white/20"
               whileHover={{ scale: 1.05, rotate: 2 }}
               animate={{
                 boxShadow: [
@@ -360,7 +360,7 @@ const ProjectCard = ({ project, index }) => {
 
         {/* Bottom gradient line */}
         <motion.div
-          className="h-1 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
+          className="h-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500"
           animate={{
             opacity: isHovered ? 1 : 0.4,
             scaleX: isHovered ? 1 : 0.8,
@@ -414,13 +414,18 @@ export default function Projects() {
     <section
       ref={sectionRef}
       id="projects"
-      className="relative min-h-screen py-32 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+      className="relative min-h-screen py-16 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 gradient-animation"></div>
+      
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-gray-900/80"></div>
       {/* Mouse-following spotlight */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(circle 400px at ${mousePosition.x}% ${mousePosition.y}%, rgba(59, 130, 246, 0.05) 0%, transparent 70%)`
+          background: `radial-gradient(circle 400px at ${mousePosition.x}% ${mousePosition.y}%, rgba(251, 191, 36, 0.05) 0%, transparent 70%)`
         }}
       />
 
@@ -429,7 +434,7 @@ export default function Projects() {
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute rounded-full bg-blue-400/20"
+            className="absolute rounded-full bg-yellow-400/20"
             style={{
               left: `${particle.x}%`,
               top: `${particle.y}%`,
@@ -457,7 +462,7 @@ export default function Projects() {
         <motion.div
           className="absolute -top-32 -left-32 w-96 h-96 rounded-full opacity-10"
           style={{
-            background: "radial-gradient(circle, #3B82F6 0%, #1D4ED8 50%, transparent 70%)"
+            background: "radial-gradient(circle, #FBBF24 0%, #F59E0B 50%, transparent 70%)"
           }}
           animate={{
             scale: [1, 1.3, 1],
@@ -473,7 +478,7 @@ export default function Projects() {
         <motion.div
           className="absolute top-1/3 -right-24 w-80 h-80 rounded-full opacity-8"
           style={{
-            background: "radial-gradient(circle, #8B5CF6 0%, #7C3AED 50%, transparent 70%)"
+            background: "radial-gradient(circle, #F97316 0%, #EA580C 50%, transparent 70%)"
           }}
           animate={{
             scale: [1.2, 1, 1.2],
@@ -509,10 +514,10 @@ export default function Projects() {
           <motion.div
             key={i}
             className={`absolute rounded-full ${
-              i % 4 === 0 ? 'bg-blue-400/20 w-2 h-2' :
-              i % 4 === 1 ? 'bg-purple-500/20 w-3 h-3' :
+              i % 4 === 0 ? 'bg-yellow-400/20 w-2 h-2' :
+              i % 4 === 1 ? 'bg-orange-500/20 w-3 h-3' :
               i % 4 === 2 ? 'bg-pink-400/20 w-1.5 h-1.5' :
-              'bg-cyan-400/20 w-2.5 h-2.5'
+              'bg-yellow-300/20 w-2.5 h-2.5'
             }`}
             style={{
               left: `${5 + (i * 6)}%`,
@@ -537,7 +542,7 @@ export default function Projects() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
-        <motion.div style={{ y: textY }} className="text-center mb-20">
+        <motion.div style={{ y: textY }} className="text-center mb-12">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
@@ -545,12 +550,12 @@ export default function Projects() {
             className="relative inline-block mb-8"
           >
             <motion.span
-              className="inline-block text-blue-400 font-bold text-sm tracking-[0.3em] uppercase relative"
+              className="inline-block text-yellow-400 font-bold text-sm tracking-[0.3em] uppercase relative"
               animate={{
                 textShadow: [
-                  "0 0 0px #60A5FA",
-                  "0 0 20px #60A5FA",
-                  "0 0 0px #60A5FA"
+                  "0 0 0px #FBBF24",
+                  "0 0 20px #FBBF24",
+                  "0 0 0px #FBBF24"
                 ]
               }}
               transition={{ duration: 3, repeat: Infinity }}
@@ -564,12 +569,12 @@ export default function Projects() {
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-4 leading-tight"
           >
             Featured{" "}
             <span className="relative inline-block">
               <motion.span
-                className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
+                className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500"
                 animate={{
                   backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                 }}
@@ -579,7 +584,7 @@ export default function Projects() {
                 Projects
               </motion.span>
               <motion.div
-                className="absolute -bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-blue-400/30 via-purple-500/30 to-pink-500/30 rounded-full blur-sm"
+                className="absolute -bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-yellow-400/30 via-orange-500/30 to-pink-500/30 rounded-full blur-sm"
                 initial={{ scaleX: 0, opacity: 0 }}
                 animate={isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
                 transition={{ duration: 1.5, delay: 0.8, type: "spring" }}
@@ -594,7 +599,7 @@ export default function Projects() {
             className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed"
           >
             Discover my latest work showcasing{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-semibold">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 font-semibold">
               modern technologies
             </span>
             {" "}and innovative solutions
@@ -620,7 +625,7 @@ export default function Projects() {
               {[...Array(5)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
+                  className="w-2 h-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"
                   animate={{
                     scale: [1, 1.5, 1],
                     opacity: [0.5, 1, 0.5],
@@ -638,7 +643,7 @@ export default function Projects() {
 
         {/* Project Cards */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}

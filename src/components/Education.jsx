@@ -34,21 +34,27 @@ export default function Education() {
   };
 
   return (
-    <section id="education" className="relative py-20 px-4 sm:px-8 bg-gradient-to-b from-white to-gray-50 text-gray-800 overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-yellow-50 to-transparent opacity-30"></div>
+    <section id="education" className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 gradient-animation"></div>
       
-      <div className="max-w-4xl mx-auto relative">
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-gray-900/80"></div>
+      
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-yellow-50/10 to-transparent opacity-30"></div>
+      
+      <div className="max-w-4xl mx-auto relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeIn}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-             Acad<span className="text-yellow-600 relative">
+          <h2 className="text-3xl sm:text-5xl font-bold text-white mb-4">
+             Acad<span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 relative">
                         <span className="relative z-10">emics</span>
                         <span className="absolute bottom-0 left-0 w-full h-3  opacity-70 -z-0 transform -rotate-1"></span>
                 </span>
@@ -67,7 +73,7 @@ export default function Education() {
           {/* Timeline line */}
           <div className="absolute left-6 md:left-1/2 h-full w-1 bg-gradient-to-b from-yellow-400 to-yellow-600 transform -translate-x-1/2"></div>
           
-          <div className="space-y-12">
+          <div className="space-y-8">
             {educationData.map((edu, index) => (
               <motion.div
                 key={index}
@@ -82,22 +88,22 @@ export default function Education() {
                 <div className="absolute left-6 md:left-1/2 w-6 h-6 rounded-full bg-yellow-500 border-4 border-white transform -translate-x-1/2 -translate-y-1/2 top-8 z-10"></div>
                 
                 {/* Content */}
-                <div className={`bg-white p-6 rounded-xl shadow-lg border-l-4 border-yellow-500 md:w-5/12 ${index % 2 === 0 ? 'md:mr-auto md:ml-8' : 'md:ml-auto md:mr-8'}`}>
+                <div className={`bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 p-6 rounded-xl shadow-lg border-l-4 border-yellow-500 md:w-5/12 hover:border-slate-600/80 transition-all duration-500 ${index % 2 === 0 ? 'md:mr-auto md:ml-8' : 'md:ml-auto md:mr-8'}`}>
                   <div className="flex items-start">
                     <span className="text-3xl mr-4">{edu.icon}</span>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900">
-                        {edu.degree} | <span className="text-yellow-600">{edu.score}</span>
+                      <h3 className="text-xl font-bold text-white">
+                        {edu.degree} | <span className="text-yellow-400">{edu.score}</span>
                       </h3>
-                      <p className="text-gray-600 mt-1">{edu.institution}</p>
+                      <p className="text-slate-300 mt-1">{edu.institution}</p>
                       
-                      <div className="mt-4 flex items-center text-sm text-gray-500">
+                      <div className="mt-4 flex items-center text-sm text-slate-400">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                         {edu.duration}
                       </div>
-                      <div className="flex items-center text-sm text-gray-500 mt-1">
+                      <div className="flex items-center text-sm text-slate-400 mt-1">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />

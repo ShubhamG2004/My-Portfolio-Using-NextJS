@@ -43,18 +43,23 @@ export default function Navbar() {
       animate="visible"
       variants={navVariants}
       transition={{ duration: 0.5 }}
-      className={`bg-gray-900 text-white px-4 sm:px-6 py-3 flex justify-between items-center sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-xl bg-opacity-90 backdrop-blur-sm' : 'shadow-md'}`}
+      className={`text-white px-4 sm:px-6 py-3 flex justify-between items-center sticky top-0 z-50 transition-all duration-300 overflow-hidden ${
+        scrolled ? 'shadow-xl' : 'shadow-md'
+      }`}
     >
+      {/* Background with Hero-style gradient */}
+      <div className="absolute inset-0 gradient-animation opacity-80"></div>
+      <div className="absolute inset-0 bg-gray-900/80 backdrop-blur-xl"></div>
       {/* Logo */}
       <motion.h1 
         whileHover={{ scale: 1.05 }}
-        className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent"
+        className="relative z-10 text-2xl font-bold bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-600 bg-clip-text text-transparent"
       >
         Shubham Gavade
       </motion.h1>
 
       {/* Desktop Navigation */}
-      <div className="hidden md:flex space-x-6">
+      <div className="hidden md:flex space-x-6 relative z-10">
         {links.map((link, i) => (
           <motion.a
             key={link.id}
@@ -77,7 +82,7 @@ export default function Navbar() {
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="md:hidden focus:outline-none z-50"
+        className="md:hidden focus:outline-none z-50 relative"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Toggle Menu"
       >
@@ -114,8 +119,11 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden fixed inset-0 bg-gray-900 bg-opacity-95 backdrop-blur-sm pt-20 px-6 flex flex-col items-center space-y-8 z-40"
+            className="md:hidden fixed inset-0 pt-20 px-6 flex flex-col items-center space-y-8 z-40 overflow-hidden"
           >
+            {/* Background with Hero-style gradient */}
+            <div className="absolute inset-0 gradient-animation"></div>
+            <div className="absolute inset-0 bg-gray-900/95 backdrop-blur-xl"></div>
             {links.map((link, i) => (
               <motion.a
                 key={link.id}
@@ -126,7 +134,7 @@ export default function Navbar() {
                 whileTap={{ scale: 0.95 }}
                 href={`#${link.id}`}
                 onClick={() => setIsOpen(false)}
-                className="text-2xl font-medium hover:text-yellow-400 transition-colors"
+                className="relative z-10 text-2xl font-medium hover:text-yellow-400 transition-colors"
               >
                 {link.label}
               </motion.a>

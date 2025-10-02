@@ -160,19 +160,19 @@ const ExperienceCard = ({ experience, index, isLast }) => {
           initial={{ scaleX: 0, opacity: 0 }}
           animate={isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
           transition={{ duration: 1, delay: index * 0.2 }}
-          className="w-10 h-0.5 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
+          className="w-10 h-0.5 bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500"
         />
         <motion.div
           whileHover={{ 
             scale: 1.4, 
             rotate: 360,
-            boxShadow: "0 0 20px rgba(59, 130, 246, 0.6)"
+            boxShadow: "0 0 20px rgba(251, 191, 36, 0.6)"
           }}
           animate={{
             boxShadow: [
-              "0 0 0px rgba(59, 130, 246, 0.4)",
-              "0 0 15px rgba(59, 130, 246, 0.8)",
-              "0 0 0px rgba(59, 130, 246, 0.4)"
+              "0 0 0px rgba(251, 191, 36, 0.4)",
+              "0 0 15px rgba(251, 191, 36, 0.8)",
+              "0 0 0px rgba(251, 191, 36, 0.4)"
             ]
           }}
           transition={{
@@ -180,7 +180,7 @@ const ExperienceCard = ({ experience, index, isLast }) => {
             repeat: Infinity,
             delay: index * 0.3
           }}
-          className="w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-purple-600 border-2 border-white shadow-xl z-10"
+          className="w-4 h-4 rounded-full bg-gradient-to-br from-yellow-400 to-orange-600 border-2 border-white shadow-xl z-10"
         />
       </div>
 
@@ -199,7 +199,7 @@ const ExperienceCard = ({ experience, index, isLast }) => {
       >
         {/* Advanced Glowing backdrop */}
         <motion.div
-          className="absolute -inset-1 bg-gradient-to-r from-blue-400/30 via-purple-500/30 to-pink-500/30 rounded-3xl blur-xl"
+          className="absolute -inset-1 bg-gradient-to-r from-yellow-400/30 via-orange-500/30 to-pink-500/30 rounded-3xl blur-xl"
           animate={{
             opacity: isHovered ? 0.8 : 0,
             scale: isHovered ? 1.08 : 1,
@@ -212,7 +212,7 @@ const ExperienceCard = ({ experience, index, isLast }) => {
         <motion.div
           className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
           style={{
-            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)`
+            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(251, 191, 36, 0.15) 0%, transparent 50%)`
           }}
         />
 
@@ -249,7 +249,7 @@ const ExperienceCard = ({ experience, index, isLast }) => {
               >
                 <span className="relative z-10">{experience.icon}</span>
                 <motion.div
-                  className="absolute inset-0 bg-blue-400/30 blur-lg rounded-full"
+                  className="absolute inset-0 bg-yellow-400/30 blur-lg rounded-full"
                   animate={{
                     scale: [1, 1.3, 1],
                     opacity: [0.3, 0.8, 0.3]
@@ -263,21 +263,21 @@ const ExperienceCard = ({ experience, index, isLast }) => {
               </motion.div>
               <div>
                 <motion.h3
-                  className="text-lg font-bold text-white mb-1.5 group-hover:text-blue-400 transition-colors duration-500"
+                  className="text-lg font-bold text-white mb-1.5 group-hover:text-yellow-400 transition-colors duration-500"
                   animate={{
-                    color: isHovered ? "#60A5FA" : "#FFFFFF",
+                    color: isHovered ? "#FBBF24" : "#FFFFFF",
                   }}
                   transition={{ duration: 0.3 }}
                 >
                   {experience.role}
                 </motion.h3>
                 <motion.span
-                  className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-blue-500/20 to-purple-600/20 border border-blue-400/30 text-blue-300 text-xs font-semibold rounded-full backdrop-blur-sm"
+                  className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-yellow-500/20 to-orange-600/20 border border-yellow-400/30 text-yellow-300 text-xs font-semibold rounded-full backdrop-blur-sm"
                   whileHover={{ 
                     scale: 1.08, 
                     y: -2,
-                    backgroundColor: "rgba(59, 130, 246, 0.3)",
-                    borderColor: "rgba(59, 130, 246, 0.6)"
+                    backgroundColor: "rgba(251, 191, 36, 0.3)",
+                    borderColor: "rgba(251, 191, 36, 0.6)"
                   }}
                 >
                   <Briefcase className="w-3 h-3 mr-1.5" />
@@ -506,8 +506,13 @@ export default function Experience() {
     <section 
       ref={sectionRef}
       id="experience" 
-      className="relative py-32 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+      className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden"
     >
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 gradient-animation"></div>
+      
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-gray-900/80"></div>
       {/* Mouse-following spotlight */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
@@ -521,7 +526,7 @@ export default function Experience() {
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute rounded-full bg-blue-400/15"
+            className="absolute rounded-full bg-yellow-400/15"
             style={{
               left: `${particle.x}%`,
               top: `${particle.y}%`,
@@ -549,7 +554,7 @@ export default function Experience() {
         <motion.div
           className="absolute -top-32 -left-32 w-96 h-96 rounded-full opacity-8"
           style={{
-            background: "radial-gradient(circle, #3B82F6 0%, #1D4ED8 30%, transparent 70%)"
+            background: "radial-gradient(circle, #FBBF24 0%, #F59E0B 30%, transparent 70%)"
           }}
           animate={{
             scale: [1, 1.2, 1],
@@ -566,7 +571,7 @@ export default function Experience() {
         <motion.div
           className="absolute top-1/4 -right-24 w-80 h-80 rounded-full opacity-6"
           style={{
-            background: "radial-gradient(circle, #8B5CF6 0%, #7C3AED 30%, transparent 70%)"
+            background: "radial-gradient(circle, #F97316 0%, #EA580C 30%, transparent 70%)"
           }}
           animate={{
             scale: [1.1, 1, 1.1],
@@ -602,7 +607,7 @@ export default function Experience() {
         {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute text-blue-400/20 font-mono text-lg select-none"
+            className="absolute text-yellow-400/20 font-mono text-lg select-none"
             style={{
               left: `${10 + (i * 8)}%`,
               top: `${15 + (i % 4) * 22}%`,
@@ -631,18 +636,18 @@ export default function Experience() {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
           transition={{ duration: 1 }}
-          className="text-center mb-20"
+          className="text-center mb-12"
         >
           <motion.div
             className="relative inline-block mb-8"
           >
             <motion.span
-              className="inline-flex items-center text-blue-400 font-bold text-sm tracking-[0.3em] uppercase"
+              className="inline-flex items-center text-yellow-400 font-bold text-sm tracking-[0.3em] uppercase"
               animate={{
                 textShadow: [
-                  "0 0 0px #60A5FA",
-                  "0 0 25px #60A5FA",
-                  "0 0 0px #60A5FA"
+                  "0 0 0px #FBBF24",
+                  "0 0 25px #FBBF24",
+                  "0 0 0px #FBBF24"
                 ]
               }}
               transition={{ duration: 4, repeat: Infinity }}
@@ -665,12 +670,12 @@ export default function Experience() {
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-4 leading-tight"
           >
             Professional{" "}
             <span className="relative inline-block">
               <motion.span
-                className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
+                className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500"
                 animate={{
                   backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                 }}
@@ -680,7 +685,7 @@ export default function Experience() {
                 Experience
               </motion.span>
               <motion.div
-                className="absolute -bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-blue-400/30 via-purple-500/30 to-pink-500/30 rounded-full blur-sm"
+                className="absolute -bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-yellow-400/30 via-orange-500/30 to-pink-500/30 rounded-full blur-sm"
                 initial={{ scaleX: 0, opacity: 0 }}
                 animate={isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
                 transition={{ duration: 1.5, delay: 0.8, type: "spring" }}
@@ -695,7 +700,7 @@ export default function Experience() {
             className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed"
           >
             My journey through{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-semibold">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 font-semibold">
               impactful roles
             </span>
             {" "}with measurable results and continuous growth
@@ -707,7 +712,7 @@ export default function Experience() {
           {/* Animated timeline line */}
           <div className="hidden lg:block absolute left-8 top-0 bottom-0 w-1">
             <motion.div
-              className="w-full bg-gradient-to-b from-blue-400 via-purple-500 to-pink-500 rounded-full shadow-lg"
+              className="w-full bg-gradient-to-b from-yellow-400 via-orange-500 to-pink-500 rounded-full shadow-lg"
               style={{
                 scaleY: timelineProgress,
                 transformOrigin: "top",
@@ -716,7 +721,7 @@ export default function Experience() {
             <div className="absolute inset-0 w-full bg-slate-700/50 rounded-full -z-10" />
             {/* Glowing effect */}
             <motion.div
-              className="absolute inset-0 w-full bg-gradient-to-b from-blue-400 via-purple-500 to-pink-500 rounded-full blur-sm opacity-50"
+              className="absolute inset-0 w-full bg-gradient-to-b from-yellow-400 via-orange-500 to-pink-500 rounded-full blur-sm opacity-50"
               style={{
                 scaleY: timelineProgress,
                 transformOrigin: "top",
@@ -729,7 +734,7 @@ export default function Experience() {
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            className="space-y-8"
+            className="space-y-6"
           >
             {experiences.map((experience, index) => (
               <ExperienceCard
@@ -747,12 +752,12 @@ export default function Experience() {
           initial={{ opacity: 0, y: 60 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
           transition={{ duration: 1, delay: 0.6 }}
-          className="text-center mt-24"
+          className="text-center mt-16"
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {[
-              { number: "4+", label: "Professional Roles", icon: Briefcase, color: "from-blue-400 to-blue-600" },
-              { number: "15+", label: "Technologies Mastered", icon: Code2, color: "from-purple-400 to-purple-600" },
+              { number: "4+", label: "Professional Roles", icon: Briefcase, color: "from-yellow-400 to-orange-600" },
+              { number: "15+", label: "Technologies Mastered", icon: Code2, color: "from-orange-400 to-red-600" },
               { number: "25%", label: "Average Improvement", icon: TrendingUp, color: "from-pink-400 to-pink-600" }
             ].map((stat, index) => (
               <motion.div
