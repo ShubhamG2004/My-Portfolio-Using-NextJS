@@ -1,5 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { MapPin, Calendar, ExternalLink, Briefcase, TrendingUp, Code2, Zap } from 'lucide-react';
 
 const experiences = [
   {
@@ -7,6 +8,9 @@ const experiences = [
     company: "Hybrid",
     date: "Jan 2025 – Feb 2025 · 2 months",
     link: "https://drive.google.com/file/d/1hushO5wSZm5KbpmdJv6qx0TccyCAX9z2/view",
+    icon: "💼",
+    companyType: "Tech Startup",
+    skills: ["Next.js", "Tailwind CSS", "MongoDB", "FastAPI"],
     points: [
       "Collaborated on the development of a Financial Management System as part of a cross-functional team.",
       "Utilized Next.js, Tailwind CSS, and MongoDB to design and implement responsive, full-stack web features.",
@@ -15,20 +19,13 @@ const experiences = [
     ]
   },
   {
-    role: "Web Developer | Trainee [On-site]",
-    company: "Resilient Lab Pvt. Ltd.",
-    date: "July 2022 – Aug 2022",
-    link: "https://drive.google.com/file/d/1TI1lLyNAPNm8TYk9QRO34TuzCT5KNrYb/view",
-    points: [
-      "Improved web portal load speed by 18% and mobile responsiveness by 25%.",
-      "Built RESTful APIs to enhance system integration and improve communication speed by 30%."
-    ]
-  },
-  {
     role: "Full Stack Web Developer | Intern [Remote]",
     company: "Rudraksha Welfare Foundation",
     date: "July 2023 – Sep 2023",
     link: "https://drive.google.com/file/d/1jsGolsbTMYO-2EgamMuyVRUEwDN3DoYi/view",
+    icon: "🌟",
+    companyType: "Non-Profit",
+    skills: ["Bootstrap", "Data Visualization", "CRM", "GoDaddy"],
     points: [
       "Managed website operations on GoDaddy, improving site uptime and performance by 20%.",
       "Planned and deployed responsive front-end interfaces with Bootstrap, enhancing UX by 30%.",
@@ -40,195 +37,763 @@ const experiences = [
     company: "Wolfox Services Pvt. Ltd.",
     date: "Jan 2023 – Feb 2023",
     link: "https://drive.google.com/file/d/1-YFQp70SihM1s3hfyMqCblcPctY3GT-a/view",
+    icon: "⚡",
+    companyType: "Digital Solutions",
+    skills: ["CodeIgniter", "MVC", "SEO", "Inventory Management"],
     points: [
       "Developed an Inventory Management System, reducing stock tracking errors by 40%.",
       "Enhanced SEO using MVC architecture & secure CodeIgniter practices, increasing traffic by 15%.",
       "Optimized back-end and server configurations, achieving 99.9% uptime and improving session management by 20%."
     ]
+  },
+  {
+    role: "Web Developer | Trainee [On-site]",
+    company: "Resilient Lab Pvt. Ltd.",
+    date: "July 2022 – Aug 2022",
+    link: "https://drive.google.com/file/d/1TI1lLyNAPNm8TYk9QRO34TuzCT5KNrYb/view",
+    icon: "🚀",
+    companyType: "Software Agency",
+    skills: ["RESTful APIs", "Performance Optimization", "Mobile Responsive"],
+    points: [
+      "Improved web portal load speed by 18% and mobile responsiveness by 25%.",
+      "Built RESTful APIs to enhance system integration and improve communication speed by 30%."
+    ]
   }
 ];
 
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
+// Enhanced animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.3,
+      delayChildren: 0.2,
+    }
+  }
 };
 
 const cardVariants = {
-  offscreen: {
-    y: 100,
-    rotate: -5,
-    opacity: 0
+  hidden: { 
+    opacity: 0, 
+    x: -120,
+    rotateY: -25,
+    scale: 0.8,
   },
-  onscreen: {
-    y: 0,
-    rotate: 0,
+  visible: {
     opacity: 1,
+    x: 0,
+    rotateY: 0,
+    scale: 1,
     transition: {
       type: "spring",
-      bounce: 0.4,
-      duration: 0.8
+      stiffness: 80,
+      damping: 20,
+      duration: 1.2
     }
   }
 };
 
-const floatingVariants = {
-  float: {
-    y: [0, -10, 0],
+const skillChipVariants = {
+  hidden: { opacity: 0, scale: 0.6, y: 30 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
     transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: "easeInOut"
+      type: "spring",
+      stiffness: 300,
+      damping: 25
     }
   }
+};
+
+const staggerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.6,
+      type: "spring",
+      stiffness: 100,
+    },
+  }),
+};
+
+const ExperienceCard = ({ experience, index, isLast }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const cardRef = useRef(null);
+  const isInView = useInView(cardRef, { once: true, margin: "-50px" });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (cardRef.current) {
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setMousePosition({ x, y });
+      }
+    };
+
+    const card = cardRef.current;
+    if (card) {
+      card.addEventListener('mousemove', handleMouseMove);
+      return () => card.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
+
+  return (
+    <motion.div
+      ref={cardRef}
+      variants={cardVariants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      className="relative group"
+      style={{ perspective: "1500px" }}
+    >
+      {/* Enhanced Timeline connector */}
+      <div className="hidden lg:flex absolute left-0 top-10 w-16 items-center z-20">
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
+          transition={{ duration: 1, delay: index * 0.2 }}
+          className="w-10 h-0.5 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
+        />
+        <motion.div
+          whileHover={{ 
+            scale: 1.4, 
+            rotate: 360,
+            boxShadow: "0 0 20px rgba(59, 130, 246, 0.6)"
+          }}
+          animate={{
+            boxShadow: [
+              "0 0 0px rgba(59, 130, 246, 0.4)",
+              "0 0 15px rgba(59, 130, 246, 0.8)",
+              "0 0 0px rgba(59, 130, 246, 0.4)"
+            ]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            delay: index * 0.3
+          }}
+          className="w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-purple-600 border-2 border-white shadow-xl z-10"
+        />
+      </div>
+
+      {/* Main card */}
+      <motion.div
+        className="lg:ml-16 relative"
+        whileHover={{ 
+          y: -12,
+          rotateY: 3,
+          rotateX: -2,
+          scale: 1.02,
+        }}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        transition={{ type: "spring", stiffness: 200, damping: 25 }}
+      >
+        {/* Advanced Glowing backdrop */}
+        <motion.div
+          className="absolute -inset-1 bg-gradient-to-r from-blue-400/30 via-purple-500/30 to-pink-500/30 rounded-3xl blur-xl"
+          animate={{
+            opacity: isHovered ? 0.8 : 0,
+            scale: isHovered ? 1.08 : 1,
+            rotate: isHovered ? 1 : 0,
+          }}
+          transition={{ duration: 0.6 }}
+        />
+
+        {/* Mouse spotlight effect */}
+        <motion.div
+          className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          style={{
+            background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)`
+          }}
+        />
+
+        {/* Card content */}
+        <div className="relative bg-slate-800/70 backdrop-blur-xl rounded-3xl p-6 border border-slate-700/50 shadow-2xl overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] bg-[length:30px_30px]" />
+          </div>
+
+          {/* Animated background pattern */}
+          <motion.div
+            className="absolute inset-0 opacity-10"
+            animate={{
+              backgroundPosition: isHovered ? ["0% 0%", "100% 100%"] : "0% 0%",
+            }}
+            transition={{ duration: 25, repeat: Infinity }}
+            style={{
+              backgroundImage: "radial-gradient(circle at 2px 2px, #60A5FA 1px, transparent 0)",
+              backgroundSize: "50px 50px",
+            }}
+          />
+
+          {/* Header with icon and company type */}
+          <div className="flex items-start justify-between mb-4 relative z-10">
+            <div className="flex items-center space-x-3">
+              <motion.div
+                className="text-2xl relative"
+                animate={{
+                  rotate: isHovered ? [0, 15, -15, 0] : 0,
+                  scale: isHovered ? [1, 1.1, 1] : 1,
+                }}
+                transition={{ duration: 0.8 }}
+              >
+                <span className="relative z-10">{experience.icon}</span>
+                <motion.div
+                  className="absolute inset-0 bg-blue-400/30 blur-lg rounded-full"
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.3, 0.8, 0.3]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+              </motion.div>
+              <div>
+                <motion.h3
+                  className="text-lg font-bold text-white mb-1.5 group-hover:text-blue-400 transition-colors duration-500"
+                  animate={{
+                    color: isHovered ? "#60A5FA" : "#FFFFFF",
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {experience.role}
+                </motion.h3>
+                <motion.span
+                  className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-blue-500/20 to-purple-600/20 border border-blue-400/30 text-blue-300 text-xs font-semibold rounded-full backdrop-blur-sm"
+                  whileHover={{ 
+                    scale: 1.08, 
+                    y: -2,
+                    backgroundColor: "rgba(59, 130, 246, 0.3)",
+                    borderColor: "rgba(59, 130, 246, 0.6)"
+                  }}
+                >
+                  <Briefcase className="w-3 h-3 mr-1.5" />
+                  {experience.companyType}
+                </motion.span>
+              </div>
+            </div>
+            
+            <motion.span
+              className="px-4 py-2 bg-gradient-to-r from-slate-700/60 to-slate-600/60 border border-slate-600/50 text-slate-300 rounded-full text-xs font-medium shadow-lg backdrop-blur-sm"
+              whileHover={{ 
+                scale: 1.05, 
+                y: -2,
+                backgroundColor: "rgba(71, 85, 105, 0.8)",
+                color: "#E2E8F0"
+              }}
+            >
+              <Calendar className="inline w-3 h-3 mr-1.5" />
+              {experience.date}
+            </motion.span>
+          </div>
+
+          {/* Company link with enhanced styling */}
+          <motion.a
+            href={experience.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center mb-4 text-sm font-semibold text-transparent bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text hover:from-blue-300 hover:to-purple-400 transition-all duration-300 relative z-10"
+            whileHover={{ 
+              scale: 1.02, 
+              x: 4,
+              textShadow: "0 0 8px rgba(59, 130, 246, 0.5)"
+            }}
+          >
+            {experience.company}
+            <motion.div className="ml-2">
+              <ExternalLink 
+                className="w-4 h-4 text-blue-400"
+              />
+            </motion.div>
+            <motion.div
+              className="ml-1"
+              animate={{ x: isHovered ? [0, 3, 0] : 0 }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <Zap className="w-3 h-3 text-purple-400" />
+            </motion.div>
+          </motion.a>
+
+          {/* Skills chips */}
+          <motion.div
+            className="flex flex-wrap gap-2 mb-5 relative z-10"
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
+            {experience.skills.slice(0, 3).map((skill, skillIndex) => (
+              <motion.span
+                key={skillIndex}
+                custom={skillIndex}
+                variants={staggerVariants}
+                whileHover={{
+                  scale: 1.08,
+                  y: -3,
+                  backgroundColor: "rgba(59, 130, 246, 0.2)",
+                  borderColor: "rgba(59, 130, 246, 0.5)",
+                  color: "#60A5FA",
+                  boxShadow: "0 5px 15px rgba(59, 130, 246, 0.3)"
+                }}
+                className="px-3 py-1.5 bg-slate-700/60 border border-slate-600/50 text-slate-300 text-xs rounded-full font-medium cursor-pointer transition-all duration-300 backdrop-blur-sm"
+              >
+                <Code2 className="inline w-3 h-3 mr-1" />
+                {skill}
+              </motion.span>
+            ))}
+            {experience.skills.length > 3 && (
+              <motion.span
+                variants={skillChipVariants}
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 5px 15px rgba(168, 85, 247, 0.3)"
+                }}
+                className="px-3 py-1.5 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-400/30 text-purple-300 text-xs rounded-full font-medium backdrop-blur-sm"
+              >
+                +{experience.skills.length - 3} more
+              </motion.span>
+            )}
+          </motion.div>
+
+          {/* Achievement points with enhanced animations */}
+          <div className="space-y-3 relative z-10">
+            {experience.points.slice(0, 3).map((point, pointIndex) => (
+              <motion.div
+                key={pointIndex}
+                custom={pointIndex}
+                variants={staggerVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                className="flex items-start group/item"
+                whileHover={{ x: 6, scale: 1.01 }}
+                transition={{ type: "spring", stiffness: 400 }}
+              >
+                <motion.div
+                  className="flex-shrink-0 mt-1 mr-4"
+                  whileHover={{ 
+                    rotate: 180,
+                    scale: 1.2,
+                  }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <div className="w-5 h-5 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center shadow-lg border border-green-300/50">
+                    <motion.div
+                      whileHover={{ scale: 1.2 }}
+                    >
+                      <TrendingUp className="w-2.5 h-2.5 text-white" />
+                    </motion.div>
+                  </div>
+                </motion.div>
+                <motion.span
+                  className="text-slate-300 text-sm leading-relaxed group-hover/item:text-slate-100 transition-colors duration-300"
+                  animate={{
+                    color: isHovered ? "#F1F5F9" : "#CBD5E1",
+                  }}
+                >
+                  {point}
+                </motion.span>
+              </motion.div>
+            ))}
+            {experience.points.length > 3 && (
+              <motion.div 
+                className="text-xs text-slate-400 ml-9 flex items-center"
+                whileHover={{ color: "#94A3B8" }}
+              >
+                <span className="w-1 h-1 bg-blue-400 rounded-full mr-2 animate-pulse" />
+                +{experience.points.length - 3} more achievements
+              </motion.div>
+            )}
+          </div>
+
+          {/* Advanced floating decorative elements */}
+          {isHovered && (
+            <motion.div
+              className="absolute inset-0 pointer-events-none z-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className={`absolute rounded-full ${
+                    i % 3 === 0 ? 'w-1 h-1 bg-blue-400' :
+                    i % 3 === 1 ? 'w-0.5 h-0.5 bg-purple-500' :
+                    'w-1.5 h-1.5 bg-pink-400'
+                  }`}
+                  style={{
+                    left: `${20 + (i * 10)}%`,
+                    top: `${20 + (i % 4) * 20}%`,
+                  }}
+                  animate={{
+                    y: [0, -25, -50, -25, 0],
+                    x: [0, Math.sin(i) * 10, 0],
+                    opacity: [0, 0.8, 1, 0.8, 0],
+                    scale: [0.5, 1, 1.5, 1, 0.5],
+                    rotate: [0, 180, 360],
+                  }}
+                  transition={{
+                    duration: 2.5 + (i * 0.2),
+                    repeat: Infinity,
+                    delay: i * 0.1,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+            </motion.div>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
 };
 
 export default function Experience() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [particles, setParticles] = useState([]);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const timelineProgress = useSpring(useTransform(scrollYProgress, [0, 0.8], [0, 1]), {
+    stiffness: 80,
+    damping: 30,
+  });
+
+  // Mouse tracking
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      setMousePosition({ x, y });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Generate floating particles
+  useEffect(() => {
+    const newParticles = Array.from({ length: 40 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2 + 1,
+      opacity: Math.random() * 0.4 + 0.1,
+      speed: Math.random() * 3 + 1,
+    }));
+    setParticles(newParticles);
+  }, []);
+
   return (
-    <section id="experience" className="py-20 px-4 sm:px-8 bg-gradient-to-b from-white to-gray-50 text-gray-800 overflow-hidden">
-      <div className="max-w-5xl mx-auto relative">
-        {/* Floating abstract shapes */}
+    <section 
+      ref={sectionRef}
+      id="experience" 
+      className="relative py-32 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
+    >
+      {/* Mouse-following spotlight */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(circle 500px at ${mousePosition.x}% ${mousePosition.y}%, rgba(59, 130, 246, 0.06) 0%, transparent 70%)`
+        }}
+      />
+
+      {/* Animated background particles */}
+      <div className="absolute inset-0 overflow-hidden">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="absolute rounded-full bg-blue-400/15"
+            style={{
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+            }}
+            animate={{
+              y: [0, -120, 0],
+              opacity: [particle.opacity, particle.opacity * 0.3, particle.opacity],
+            }}
+            transition={{
+              duration: particle.speed * 12,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        ))}
+      </div>
+      {/* Enhanced background with parallax */}
+      <motion.div
+        style={{ y: backgroundY }}
+        className="absolute inset-0 pointer-events-none"
+      >
+        {/* Animated gradient orbs */}
         <motion.div
-          variants={floatingVariants}
-          animate="float"
-          className="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-yellow-100 opacity-20 blur-xl"
-        />
-        <motion.div
-          variants={floatingVariants}
-          animate="float"
-          transition={{ delay: 0.5 }}
-          className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-yellow-200 opacity-20 blur-xl"
+          className="absolute -top-32 -left-32 w-96 h-96 rounded-full opacity-8"
+          style={{
+            background: "radial-gradient(circle, #3B82F6 0%, #1D4ED8 30%, transparent 70%)"
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360],
+            opacity: [0.08, 0.15, 0.08],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear"
+          }}
         />
         
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeIn}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16 relative z-10"
-        >
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-            Professional <span className="text-yellow-600 relative">
-              <span className="relative z-10">Experience</span>
-              <span className="absolute bottom-0 left-0 w-full h-3 bg-yellow-100 opacity-70 -z-0 transform -rotate-1"></span>
-            </span>
-          </h2>
+          className="absolute top-1/4 -right-24 w-80 h-80 rounded-full opacity-6"
+          style={{
+            background: "radial-gradient(circle, #8B5CF6 0%, #7C3AED 30%, transparent 70%)"
+          }}
+          animate={{
+            scale: [1.1, 1, 1.1],
+            rotate: [360, 180, 0],
+            opacity: [0.06, 0.12, 0.06],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+
+        <motion.div
+          className="absolute bottom-1/3 left-1/5 w-64 h-64 rounded-full opacity-10"
+          style={{
+            background: "radial-gradient(circle, #EC4899 0%, #BE185D 30%, transparent 70%)"
+          }}
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, 40, 0],
+            y: [0, -30, 0],
+            opacity: [0.1, 0.18, 0.1],
+          }}
+          transition={{
+            duration: 35,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+
+        {/* Floating code symbols */}
+        {[...Array(12)].map((_, i) => (
           <motion.div
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="w-20 h-1.5 bg-gradient-to-r from-yellow-400 to-yellow-600 mx-auto rounded-full mb-4 origin-left"
-          />
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            My journey through impactful roles where I've delivered measurable results
-          </p>
-        </motion.div>
-       
-        <div className="space-y-8 relative">
-          {/* Animated timeline line */}
-          <motion.div 
-            initial={{ scaleY: 0 }}
-            whileInView={{ scaleY: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="hidden sm:block absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-yellow-400 to-yellow-600 transform -translate-x-1/2 origin-top"
-          />
-          
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              initial="offscreen"
-              whileInView="onscreen"
-              viewport={{ once: true, margin: "-100px" }}
-              variants={cardVariants}
-              className="relative"
+            key={i}
+            className="absolute text-blue-400/20 font-mono text-lg select-none"
+            style={{
+              left: `${10 + (i * 8)}%`,
+              top: `${15 + (i % 4) * 22}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.2, 0.4, 0.2],
+              rotate: [0, 180, 360],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 5 + (i * 0.3),
+              repeat: Infinity,
+              delay: i * 0.2,
+              ease: "easeInOut"
+            }}
+          >
+            {['</', '/>', '{}', '[]', '()', '&&', '||', '=>', '==', '!=', '++', '--'][i % 12]}
+          </motion.div>
+        ))}
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Enhanced header */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 1 }}
+          className="text-center mb-20"
+        >
+          <motion.div
+            className="relative inline-block mb-8"
+          >
+            <motion.span
+              className="inline-flex items-center text-blue-400 font-bold text-sm tracking-[0.3em] uppercase"
+              animate={{
+                textShadow: [
+                  "0 0 0px #60A5FA",
+                  "0 0 25px #60A5FA",
+                  "0 0 0px #60A5FA"
+                ]
+              }}
+              transition={{ duration: 4, repeat: Infinity }}
             >
-              {/* 3D animated timeline dot */}
-              <motion.div 
-                whileHover={{ scale: 1.2 }}
-                className="hidden sm:flex absolute left-8 w-6 h-6 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 border-4 border-white transform -translate-x-1/2 -translate-y-1/2 top-12 z-10 shadow-lg"
-              />
-              
               <motion.div
+                className="px-5 py-3 bg-slate-800/60 backdrop-blur-xl rounded-full border border-slate-700/50 flex items-center"
                 whileHover={{ 
-                  y: -5,
-                  boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+                  scale: 1.05,
+                  backgroundColor: "rgba(30, 41, 59, 0.8)",
+                  borderColor: "rgba(100, 116, 139, 0.8)"
                 }}
-                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-yellow-500 sm:ml-16 relative overflow-hidden group"
               >
-                {/* Card shine effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 relative z-10">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900">{exp.role}</h3>
-                    <a 
-                      href={exp.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-md font-medium text-blue-600 hover:text-blue-800 transition-colors flex items-center"
-                    >
-                      {exp.company}
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                      </svg>
-                    </a>
-                  </div>
-                  <motion.span 
-                    whileHover={{ scale: 1.05 }}
-                    className="inline-block mt-2 sm:mt-0 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium shadow-sm"
-                  >
-                    {exp.date}
-                  </motion.span>
-                </div>
-                <ul className="space-y-3 relative z-10">
-                  {exp.points.map((point, idx) => (
-                    <motion.li 
-                      key={idx} 
-                      className="flex items-start"
-                      whileHover={{ x: 5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
-                      <motion.span 
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.5 }}
-                        className="flex-shrink-0 mt-1 mr-2"
-                      >
-                        <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                      </motion.span>
-                      <span className="text-gray-700">{point}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-                
-                {/* Tech stack floating tags */}
-                {index === experiences.length - 1 && (
-                  <div className="absolute -right-10 -bottom-10 opacity-10 group-hover:opacity-20 transition-opacity duration-300">
-                    <motion.div
-                      animate={{
-                        rotate: [0, 360],
-                      }}
-                      transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
-                      className="text-6xl font-bold text-yellow-500"
-                    >
-                      <span className="block">Next.js</span>
-                      <span className="block">Tailwind</span>
-                      <span className="block">MongoDB</span>
-                      <span className="block">FastAPI</span>
-                    </motion.div>
-                  </div>
-                )}
+                <Briefcase className="w-4 h-4 mr-3" />
+                CAREER JOURNEY
               </motion.div>
-            </motion.div>
-          ))}
+            </motion.span>
+          </motion.div>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 50 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-6 leading-tight"
+          >
+            Professional{" "}
+            <span className="relative inline-block">
+              <motion.span
+                className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500"
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                }}
+                transition={{ duration: 5, repeat: Infinity }}
+                style={{ backgroundSize: "200% 200%" }}
+              >
+                Experience
+              </motion.span>
+              <motion.div
+                className="absolute -bottom-2 left-0 right-0 h-3 bg-gradient-to-r from-blue-400/30 via-purple-500/30 to-pink-500/30 rounded-full blur-sm"
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
+                transition={{ duration: 1.5, delay: 0.8, type: "spring" }}
+              />
+            </span>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed"
+          >
+            My journey through{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 font-semibold">
+              impactful roles
+            </span>
+            {" "}with measurable results and continuous growth
+          </motion.p>
+        </motion.div>
+
+        {/* Timeline container */}
+        <div className="relative">
+          {/* Animated timeline line */}
+          <div className="hidden lg:block absolute left-8 top-0 bottom-0 w-1">
+            <motion.div
+              className="w-full bg-gradient-to-b from-blue-400 via-purple-500 to-pink-500 rounded-full shadow-lg"
+              style={{
+                scaleY: timelineProgress,
+                transformOrigin: "top",
+              }}
+            />
+            <div className="absolute inset-0 w-full bg-slate-700/50 rounded-full -z-10" />
+            {/* Glowing effect */}
+            <motion.div
+              className="absolute inset-0 w-full bg-gradient-to-b from-blue-400 via-purple-500 to-pink-500 rounded-full blur-sm opacity-50"
+              style={{
+                scaleY: timelineProgress,
+                transformOrigin: "top",
+              }}
+            />
+          </div>
+
+          {/* Experience cards */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            className="space-y-8"
+          >
+            {experiences.map((experience, index) => (
+              <ExperienceCard
+                key={index}
+                experience={experience}
+                index={index}
+                isLast={index === experiences.length - 1}
+              />
+            ))}
+          </motion.div>
         </div>
+
+        {/* Bottom stats section */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+          transition={{ duration: 1, delay: 0.6 }}
+          className="text-center mt-24"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {[
+              { number: "4+", label: "Professional Roles", icon: Briefcase, color: "from-blue-400 to-blue-600" },
+              { number: "15+", label: "Technologies Mastered", icon: Code2, color: "from-purple-400 to-purple-600" },
+              { number: "25%", label: "Average Improvement", icon: TrendingUp, color: "from-pink-400 to-pink-600" }
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                className="relative p-6 bg-slate-800/60 backdrop-blur-xl rounded-3xl border border-slate-700/50 shadow-2xl overflow-hidden group"
+                whileHover={{ 
+                  y: -8, 
+                  scale: 1.05,
+                  boxShadow: "0 25px 50px rgba(0, 0, 0, 0.5)",
+                  borderColor: "rgba(100, 116, 139, 0.8)"
+                }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-5">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,white_1px,transparent_0)] bg-[length:20px_20px]" />
+                </div>
+
+                {/* Glow Effect */}
+                <motion.div
+                  className={`absolute -inset-1 bg-gradient-to-r ${stat.color} rounded-3xl opacity-0 group-hover:opacity-20 blur transition-opacity duration-500`}
+                />
+
+                <div className="relative z-10">
+                  <motion.div 
+                    className={`inline-flex p-4 bg-gradient-to-r ${stat.color} rounded-2xl mb-4 shadow-lg`}
+                    whileHover={{ 
+                      scale: 1.1,
+                      rotate: 5
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <stat.icon className="w-6 h-6 text-white" />
+                  </motion.div>
+                  <div className="text-2xl font-black text-white mb-2">{stat.number}</div>
+                  <div className="text-slate-400 text-sm font-medium">{stat.label}</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
