@@ -201,7 +201,7 @@ export default function Skills() {
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            <span className="block text-white mb-2">My</span>
+            <span className="text-white mb-2">My </span>
             <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-pink-500 bg-clip-text text-transparent">
               Skills
             </span>

@@ -56,7 +56,7 @@ export default function Awards() {
       description: "Finserve: Where Tech Meets Finance [National Level DSA Hackathon]",
       certLink: "https://drive.google.com/file/d/1rT8nyL_fghyAavFTi16SeL64Y_o2g-TP/view",
       icon: "🥇",
-      date: "2023",
+      date: "2024",
       color: "from-yellow-400 to-orange-500",
       bgColor: "bg-yellow-500/10",
       borderColor: "border-yellow-500/30"
@@ -76,7 +76,7 @@ export default function Awards() {
       description: "AIZureStack (AI + Azure) Hackathon [National Level Competition]",
       certLink: "https://drive.google.com/file/d/181C8X45wKkTuZwM-aov8J1xTQQLthbMe/view",
       icon: "🥈",
-      date: "2022",
+      date: "2025",
       color: "from-blue-400 to-cyan-500",
       bgColor: "bg-blue-500/10",
       borderColor: "border-blue-500/30"
@@ -86,7 +86,7 @@ export default function Awards() {
       description: "Ink of Independence [National Level Poster Presentation Competition]",
       certLink: "https://drive.google.com/file/d/1EWquF_6GR1cC5FOHL9LJEbfMgek0XBSP/view",
       icon: "🎨",
-      date: "2022",
+      date: "2024",
       color: "from-green-400 to-emerald-500",
       bgColor: "bg-green-500/10",
       borderColor: "border-green-500/30"
@@ -96,7 +96,7 @@ export default function Awards() {
       description: "GeekGenius Challenge [National Level Quiz Competition]",
       certLink: "https://drive.google.com/file/d/1CRfbOaf7noSJixFeANptOLaCF2bbRvzQ/view",
       icon: "🧠",
-      date: "2021",
+      date: "2024",
       color: "from-red-400 to-pink-500",
       bgColor: "bg-red-500/10",
       borderColor: "border-red-500/30"
@@ -106,14 +106,14 @@ export default function Awards() {
   const activities = [
     { text: "Student Coordinator", icon: "👥", year: "2023", color: "from-indigo-400 to-purple-500" },
     { text: "Technical Coordinator - Techno-Fest 2k23", icon: "🛠️", year: "2023", color: "from-orange-400 to-red-500" },
-    { text: "E-CESA Club Member", icon: "🤝", year: "2022-23", color: "from-green-400 to-blue-500" },
-    { text: "IEEE Student Club Participant", icon: "⚡", year: "2021-22", color: "from-yellow-400 to-orange-500" }
+    { text: "E-CESA Club Member", icon: "🤝", year: "2024-25", color: "from-green-400 to-blue-500" },
+    { text: "IEEE Student Club Participant", icon: "⚡", year: "2025", color: "from-yellow-400 to-orange-500" }
   ];
 
   const openSource = [
-    { text: "Contributed to 3+ open source projects via CertifyO platform", icon: "🌐", year: "2023", color: "from-cyan-400 to-blue-500" },
-    { text: "Improved bug tracking and documentation", icon: "📝", year: "2022", color: "from-emerald-400 to-green-500" },
-    { text: "Developed UI components and fixed API issues", icon: "💻", year: "2022", color: "from-purple-400 to-pink-500" }
+    { text: "Contributed to 3+ open source projects via CertifyO platform", icon: "🌐", color: "from-cyan-400 to-blue-500" },
+    { text: "Improved bug tracking and documentation", icon: "📝",  color: "from-emerald-400 to-green-500" },
+    { text: "Developed UI components and fixed API issues", icon: "💻", color: "from-purple-400 to-pink-500" }
   ];
 
   const containerVariants = {
